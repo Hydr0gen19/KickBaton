@@ -17,6 +17,7 @@ ignore:
   - package.json
   - package-lock.json
   - sync.ps1
-  # Project artwork for CurseForge; the game never loads it.
+  # Project artwork and store-page copy for CurseForge; the game loads neither.
   - logo.png
   - logo.ps1
+  - docs
