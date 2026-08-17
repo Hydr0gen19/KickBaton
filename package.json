@@ -1,6 +1,6 @@
 ﻿{
   "name": "kicker",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "Interrupt rotation assignments by raid marker, for WoW Midnight (12.x). Dev tooling only - the addon itself is pure Lua.",
   "scripts": {

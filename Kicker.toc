@@ -2,7 +2,7 @@
 ## Title: Kicker
 ## Notes: Interrupt rotation assignments by raid marker
 ## Notes-itIT: Assegnazioni della rotation di interrupt per raid marker
-## Version: 0.3.0
+## Version: 0.3.1
 ## SavedVariables: KickerDB
 ## AddonCompartmentFunc: Kicker_OnCompartmentClick
 ## IconTexture: Interface\TargetingFrame\UI-RaidTargetingIcon_8
