@@ -48,7 +48,7 @@ New-Item -ItemType Directory -Force $destination | Out-Null
 
 robocopy $source $destination /MIR `
     /XD .git node_modules tests `
-    /XF *.ps1 *.js *.json *.md .gitignore `
+    /XF *.ps1 *.js *.json *.md *.png .gitignore `
     /NFL /NDL /NJH /NJS /NC /NS | Out-Null
 
 # robocopy signals success with codes below 8; only 8 and up are real failures.
