@@ -14,7 +14,7 @@
 # whose token is missing from the repository secrets, so these can be filled in
 # one at a time.
 ## X-Curse-Project-ID: 1656674
-## X-Wago-ID: ZKxZyENk
+## X-Wago-ID: 56ndPAG9
 
 Locales\enUS.lua
 Locales\itIT.lua
