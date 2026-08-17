@@ -28,23 +28,19 @@ jobs:
       # Never publish something that does not parse.
       - run: npm run verify
 
-      # Lengths only - never the values. Tells us whether a token reached the
-      # runner at all, which the packager's own output does not distinguish
-      # from a token it simply chose not to use.
-      - name: Check token propagation
-        env:
-          CF: ${{ secrets.CF_API_TOKEN }}
-          WAGO: ${{ secrets.WAGO_API_TOKEN }}
-        run: |
-          echo "CF_API_TOKEN length:   ${#CF}"
-          echo "WAGO_API_TOKEN length: ${#WAGO}"
-
       - uses: BigWigsMods/packager@v2
         env:
           # Provided automatically by Actions; no secret to configure.
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
-          # The rest are optional. Each site is skipped until both its token is
-          # set here and its ID is present in KickBaton.toc.
+
+          # The CurseForge variable was renamed: the v2 tag reads CF_API_KEY,
+          # while master reads CF_API_TOKEN. Both are set from the same secret
+          # so this keeps working whichever version the tag resolves to - the
+          # symptom otherwise is a silent skip with no error anywhere.
+          CF_API_KEY: ${{ secrets.CF_API_TOKEN }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+
+          # Optional. Each site is skipped until both its token is set here and
+          # its ID is present in KickBaton.toc.
           WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
           WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
