@@ -7,7 +7,7 @@ local Rotation = ns:NewModule("Rotation")
 -- interrupt frees up again.
 --
 -- Every number in here is ours: cooldown expiries are built from GetTime() plus
--- a duration the kicker told us over comms. We never read another player's
+-- a duration the kickbaton told us over comms. We never read another player's
 -- cooldown, so nothing in this file can touch a secret value.
 
 Rotation.turn = {}

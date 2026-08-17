@@ -1,4 +1,4 @@
-﻿name: Release
+name: Release
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
           # Provided automatically by Actions; no secret to configure.
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
           # The rest are optional. Each site is skipped until both its token is
-          # set here and its ID is present in Kicker.toc.
+          # set here and its ID is present in KickBaton.toc.
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
           WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}

@@ -1,5 +1,5 @@
 --[[
-Kicker - interrupt rotation assignments by raid marker
+KickBaton - interrupt rotation assignments by raid marker
 Copyright (C) 2026 Luca Vitale
 
 This program is free software: you can redistribute it and/or modify it under
@@ -27,7 +27,7 @@ ns.ADDON_NAME = addonName
 ns.VERSION = (C_AddOns and C_AddOns.GetAddOnMetadata
 	and C_AddOns.GetAddOnMetadata(addonName, "Version")) or "0.1.0"
 
-local CHAT_PREFIX = "|cff33ff99Kicker|r: "
+local CHAT_PREFIX = "|cff33ff99KickBaton|r: "
 
 function ns:Print(msg, ...)
 	if select("#", ...) > 0 then
@@ -155,8 +155,8 @@ end
 ns:RegisterEvent("ADDON_LOADED", function(_, loadedAddon)
 	if loadedAddon ~= addonName then return end
 
-	KickerDB = CopyDefaults(defaults, KickerDB)
-	ns.db = KickerDB
+	KickBatonDB = CopyDefaults(defaults, KickBatonDB)
+	ns.db = KickBatonDB
 
 	for i = 1, #ns.modules do
 		local module = ns.modules[i]
@@ -195,10 +195,10 @@ local function PrintHelp()
 	end
 end
 
-SLASH_KICKER1 = "/kicker"
-SLASH_KICKER2 = "/kk"
+SLASH_KICKBATON1 = "/kickbaton"
+SLASH_KICKBATON2 = "/kbt"
 
-SlashCmdList["KICKER"] = function(input)
+SlashCmdList["KICKBATON"] = function(input)
 	input = (input or ""):gsub("^%s+", ""):gsub("%s+$", "")
 	local command, argument = input:match("^(%S*)%s*(.-)$")
 	command = (command or ""):lower()
@@ -265,24 +265,24 @@ end
 
 -- Bindings.xml refers to both a header and a category; each needs its own
 -- global or the keybinding panel files these under a raw token.
-BINDING_HEADER_KICKER = L["BINDING_HEADER"]
-BINDING_CATEGORY_KICKER = L["BINDING_HEADER"]
-BINDING_NAME_KICKER_ADVANCE = L["BINDING_ADVANCE"]
-BINDING_NAME_KICKER_CONFIG = L["BINDING_CONFIG"]
-BINDING_NAME_KICKER_TOGGLE = L["BINDING_TOGGLE"]
+BINDING_HEADER_KICKBATON = L["BINDING_HEADER"]
+BINDING_CATEGORY_KICKBATON = L["BINDING_HEADER"]
+BINDING_NAME_KICKBATON_ADVANCE = L["BINDING_ADVANCE"]
+BINDING_NAME_KICKBATON_CONFIG = L["BINDING_CONFIG"]
+BINDING_NAME_KICKBATON_TOGGLE = L["BINDING_TOGGLE"]
 
-function Kicker_AdvanceTurn()
+function KickBaton_AdvanceTurn()
 	if ns.Rotation then ns.Rotation:AdvanceManual() end
 end
 
-function Kicker_ToggleConfig()
+function KickBaton_ToggleConfig()
 	if ns.Config then ns.Config:Toggle() end
 end
 
-function Kicker_ToggleBoard()
+function KickBaton_ToggleBoard()
 	if ns.Board then ns.Board:SetHidden(not ns.db.ui.hidden) end
 end
 
-function Kicker_OnCompartmentClick()
+function KickBaton_OnCompartmentClick()
 	if ns.Config then ns.Config:Toggle() end
 end

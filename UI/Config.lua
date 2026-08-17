@@ -272,11 +272,11 @@ end
 
 local function CreateWindow()
 	local templated = true
-	local ok, frame = pcall(CreateFrame, "Frame", "KickerConfigFrame", UIParent,
+	local ok, frame = pcall(CreateFrame, "Frame", "KickBatonConfigFrame", UIParent,
 		"BasicFrameTemplateWithInset")
 	if not ok or not frame then
 		templated = false
-		frame = CreateFrame("Frame", "KickerConfigFrame", UIParent)
+		frame = CreateFrame("Frame", "KickBatonConfigFrame", UIParent)
 		local bg = frame:CreateTexture(nil, "BACKGROUND")
 		bg:SetAllPoints()
 		bg:SetColorTexture(0, 0, 0, 0.9)
@@ -343,7 +343,7 @@ local function CreateWindow()
 		ShowMenu(self, entries)
 	end)
 
-	tinsert(UISpecialFrames, "KickerConfigFrame")
+	tinsert(UISpecialFrames, "KickBatonConfigFrame")
 	return frame
 end
 

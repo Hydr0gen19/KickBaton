@@ -10,7 +10,7 @@ local Transfer = ns:NewModule("Transfer")
 -- Discord the night before. The wire protocol is for keeping an assembled group
 -- in step; this is for getting the assignments to people in the first place.
 --
---   Kicker:1:Mitica:2!8,1=Luca-Nemesis,Marco-Pozzo!7=Anna-Nemesis,Giulio-Pozzo
+--   KickBaton:1:Mitica:2!8,1=Luca-Nemesis,Marco-Pozzo!7=Anna-Nemesis,Giulio-Pozzo
 --   ^magic ^ver ^profile ^count ^ one chunk per squad, markers=members
 --
 -- Deliberately plain text rather than serialise+compress+base64. The payload is
@@ -21,8 +21,17 @@ local Transfer = ns:NewModule("Transfer")
 -- clips a long string would otherwise produce a shorter but perfectly valid
 -- assignment set, and import it silently.
 
-local MAGIC = "Kicker"
+local MAGIC = "KickBaton"
 local FORMAT_VERSION = 1
+
+-- The addon was called Kicker until it clashed with an existing CurseForge
+-- project. Renaming resets saved variables, so exporting before the switch and
+-- importing after is the only way anyone keeps their squads - which only works
+-- if the old magic is still accepted here.
+local LEGACY_MAGIC = {
+	["Kicker"] = true,
+	["KickBaton"] = true,
+}
 
 -- Profile names are user-typed, so keep the delimiters out of them.
 local function SanitiseName(name)
@@ -63,7 +72,7 @@ function Transfer:Import(input)
 	local magic, version, profileName, count, body =
 		input:match("^(%a+):(%d+):([^:!]*):(%d+)!(.*)$")
 
-	if magic ~= MAGIC then
+	if not LEGACY_MAGIC[magic] then
 		return false, L["TRANSFER_ERR_FORMAT"]
 	end
 	if tonumber(version) ~= FORMAT_VERSION then

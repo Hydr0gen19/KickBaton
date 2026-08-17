@@ -1,4 +1,4 @@
-# Kicker
+# KickBaton
 
 Interrupt rotation assignments by raid marker, for World of Warcraft: Midnight (12.x).
 
@@ -7,7 +7,7 @@ board telling them whose turn it is.
 
 ---
 
-## Read this first: what Kicker cannot do
+## Read this first: what KickBaton cannot do
 
 Midnight closed most combat state off to addons:
 
@@ -18,23 +18,23 @@ Midnight closed most combat state off to addons:
   instance, and a secret cannot be compared: `if marker == 8` raises a Lua error
   rather than evaluating to false.
 
-**So Kicker never sees the skull, and never knows it is casting.** It will not tell
+**So KickBaton never sees the skull, and never knows it is casting.** It will not tell
 you to press your interrupt. The division of labour is:
 
 | Who | What |
 |---|---|
 | Your eyes | "There is a skull and it is casting" — the default nameplate already shows both |
-| Kicker | "On the skull it is Marco's turn now, not Luca's" |
+| KickBaton | "On the skull it is Marco's turn now, not Luca's" |
 
-Kicker does not replace the eye. It replaces the memory and the voice call, which is
+KickBaton does not replace the eye. It replaces the memory and the voice call, which is
 the part that actually cost effort.
 
 ---
 
 ## Install
 
-Drop the `Kicker` folder into `World of Warcraft\_retail_\Interface\AddOns\`, so that
-`AddOns\Kicker\Kicker.toc` exists. `/reload`, then `/kicker status` to confirm.
+Drop the `KickBaton` folder into `World of Warcraft\_retail_\Interface\AddOns\`, so that
+`AddOns\KickBaton\KickBaton.toc` exists. `/reload`, then `/kickbaton status` to confirm.
 
 Everyone in the group needs it: both the assignment sync and the kick detection only
 work between clients that have it.
@@ -69,7 +69,7 @@ The classic "two people on one marker" is just a squad with a single marker.
 
 ### Configuring
 
-`/kicker`, or right-click the board.
+`/kickbaton`, or right-click the board.
 
 **New squad**, then **Add from group** for members. Use that button rather than typing
 names: assignments are stored as `Name-Realm`, and the button takes the realm from the
@@ -92,7 +92,7 @@ taken by another squad are disabled.
 - **a grey name with a number** — on cooldown, seconds remaining
 - **a highlighted row** — your squad
 
-Drag it anywhere. `/kicker scale 1.5` to resize (0.5 to 3.0).
+Drag it anywhere. `/kickbaton scale 1.5` to resize (0.5 to 3.0).
 
 ---
 
@@ -122,7 +122,7 @@ profile. The export string does, and recreates the profile on the other side.
 
 ## Macros
 
-`/kicker macro` picks your marker (defaulting to your squad's first) and generates:
+`/kickbaton macro` picks your marker (defaulting to your squad's first) and generates:
 
 ```
 #showtooltip
@@ -157,33 +157,33 @@ the condition that line was hand-rolling.
 Order matters when clearing: `/tm [@focus] 0` must come **before** `/clearfocus`, or
 `@focus` no longer resolves and the marker stays on the mob.
 
-Kicker only ever *shows* this text. `RunMacroText` is as protected as `SetRaidTarget`,
+KickBaton only ever *shows* this text. `RunMacroText` is as protected as `SetRaidTarget`,
 and pretending otherwise would only move the error into the dungeon.
 
 ---
 
 ## Commands
 
-Short alias: `/kk`.
+Short alias: `/kbt`.
 
 | Command | Effect |
 |---|---|
-| `/kicker` | Open the squad editor |
-| `/kicker help` | List commands |
-| `/kicker status` | Report what the addon can and cannot do here |
-| `/kicker macro` | Focus and marking macros |
-| `/kicker push` | Send squads to the group (lead/assist only) |
-| `/kicker export` / `import` | Share squads as a string |
-| `/kicker profile <name>` | Switch profile (creates it if new) |
-| `/kicker profile delete <name>` | Delete a profile you are not using |
-| `/kicker next` | Advance your squad's turn manually |
-| `/kicker show` / `hide` | Toggle the board |
-| `/kicker lock` / `unlock` | Stop or allow dragging |
-| `/kicker scale <0.5-3.0>` | Resize the board |
-| `/kicker reset` | Recentre the board |
+| `/kickbaton` | Open the squad editor |
+| `/kickbaton help` | List commands |
+| `/kickbaton status` | Report what the addon can and cannot do here |
+| `/kickbaton macro` | Focus and marking macros |
+| `/kickbaton push` | Send squads to the group (lead/assist only) |
+| `/kickbaton export` / `import` | Share squads as a string |
+| `/kickbaton profile <name>` | Switch profile (creates it if new) |
+| `/kickbaton profile delete <name>` | Delete a profile you are not using |
+| `/kickbaton next` | Advance your squad's turn manually |
+| `/kickbaton show` / `hide` | Toggle the board |
+| `/kickbaton lock` / `unlock` | Stop or allow dragging |
+| `/kickbaton scale <0.5-3.0>` | Resize the board |
+| `/kickbaton reset` | Recentre the board |
 
-Three keybindings under Options → Keybindings → Kicker. Options (scale, lock, sound,
-flash, automatic detection) under Options → AddOns → Kicker.
+Three keybindings under Options → Keybindings → KickBaton. Options (scale, lock, sound,
+flash, automatic detection) under Options → AddOns → KickBaton.
 
 Profiles are account-wide and each holds its own squads. Switching to a new one
 creates it empty; switch back and your squads return. To duplicate one, export and
@@ -215,7 +215,7 @@ K|<cooldownSeconds>
 Q                                          request a push from whoever leads
 ```
 
-Prefix `KICKER`, 255 characters per message, 10-message burst with 1/second refill. A
+Prefix `KICKBATON`, 255 characters per message, 10-message burst with 1/second refill. A
 full push is two framing messages plus one per squad: at most 10, so it never queues.
 
 Squad lines accumulate in a per-sender buffer and are committed only on a well-formed
@@ -232,7 +232,7 @@ sender, and the receiver resolves the squad with `Squads:FindSquadOf(sender)`.
 ### Export format
 
 ```
-Kicker:1:Mythic:2!1,8=Luca-Nemesis,Marco-Pozzo!7=Anna-Nemesis,Giulio-Pozzo
+KickBaton:1:Mythic:2!1,8=Luca-Nemesis,Marco-Pozzo!7=Anna-Nemesis,Giulio-Pozzo
  magic ^ver ^profile  ^count  ^ one chunk per squad, markers=members
 ```
 
@@ -262,7 +262,7 @@ truncation, duplicate marker, duplicate member, out-of-range marker, and that a
 rejected import writes nothing.
 
 The rest touches too much of the WoW API to test outside the game; there the safety net
-is the parser plus `/kicker status`. For runtime errors, BugSack and !BugGrabber.
+is the parser plus `/kickbaton status`. For runtime errors, BugSack and !BugGrabber.
 
 `sync.ps1` copies the addon into your AddOns folder, locating it automatically. Pass
 `-Target` or set `WOW_ADDONS` to override.
@@ -273,7 +273,7 @@ is the parser plus `/kicker status`. For runtime errors, BugSack and !BugGrabber
   `/dump select(4, GetBuildInfo())`.
 - **Interrupt spell IDs** in `Core/Data.lua` — confirm with
   `/dump C_Spell.GetSpellInfo(<id>)`, and check the live watch list with
-  `/kicker status`.
+  `/kickbaton status`.
 
 ### Known risks
 

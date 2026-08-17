@@ -45,7 +45,7 @@ end
 --
 -- Spell IDs age faster than anything else in this addon. Verify with
 --   /dump C_Spell.GetSpellInfo(<id>)
--- and check the live watch list with /kicker status.
+-- and check the live watch list with /kickbaton status.
 --------------------------------------------------------------------------------
 
 ns.INTERRUPTS = {

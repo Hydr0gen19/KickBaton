@@ -43,11 +43,11 @@ end
 
 local function CreateWindow()
 	local templated = true
-	local ok, frame = pcall(CreateFrame, "Frame", "KickerMacroFrame", UIParent,
+	local ok, frame = pcall(CreateFrame, "Frame", "KickBatonMacroFrame", UIParent,
 		"BasicFrameTemplateWithInset")
 	if not ok or not frame then
 		templated = false
-		frame = CreateFrame("Frame", "KickerMacroFrame", UIParent)
+		frame = CreateFrame("Frame", "KickBatonMacroFrame", UIParent)
 		local background = frame:CreateTexture(nil, "BACKGROUND")
 		background:SetAllPoints()
 		background:SetColorTexture(0, 0, 0, 0.92)
@@ -144,7 +144,7 @@ local function CreateWindow()
 	frame.close:SetText(L["TRANSFER_CLOSE"])
 	frame.close:SetScript("OnClick", function() frame:Hide() end)
 
-	tinsert(UISpecialFrames, "KickerMacroFrame")
+	tinsert(UISpecialFrames, "KickBatonMacroFrame")
 	return frame
 end
 

@@ -3,7 +3,7 @@
 #
 # YAML: spaces only, tabs will fail to parse.
 
-package-as: Kicker
+package-as: KickBaton
 
 # Development tooling. The addon itself is pure Lua and needs none of it, so it
 # must not end up in the published archive.

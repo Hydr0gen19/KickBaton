@@ -22,7 +22,7 @@ local TURN_GLYPH = "|cffffd100\194\187|r"              -- U+00BB right double an
 -- escape and would swallow what follows.
 local SEPARATOR = "|cff707070 || |r"
 
-local board = CreateFrame("Frame", "KickerBoard", UIParent)
+local board = CreateFrame("Frame", "KickBatonBoard", UIParent)
 board:SetSize(MIN_WIDTH, ROW_HEIGHT)
 board:SetClampedToScreen(true)
 
@@ -184,7 +184,7 @@ function Board:Refresh()
 end
 
 -- Why the board is or isn't on screen, as a single value. Exposed so
--- /kicker status can answer "where is it?" instead of leaving you to guess.
+-- /kickbaton status can answer "where is it?" instead of leaving you to guess.
 function Board:VisibilityState()
 	local ui = ns.db.ui
 	if ui.hidden then return "manual" end

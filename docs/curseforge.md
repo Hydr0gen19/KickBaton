@@ -1,24 +1,24 @@
-# Kicker
+# KickBaton
 
 **Interrupt rotation assignments by raid marker.**
 
-Your group already decides who kicks what. Kicker keeps that decision on screen
+Your group already decides who kicks what. KickBaton keeps that decision on screen
 instead of in voice comms: assign players to raid markers, share the assignment
 with the whole group, and everyone gets a compact board showing whose interrupt
 is next.
 
 ---
 
-## Read this first: what Kicker cannot do
+## Read this first: what KickBaton cannot do
 
 Midnight closed most combat state off to addons. `GetRaidTargetIndex` is
 restricted for enemy units, creature names and cast spell IDs are secret values
 inside instances, and the combat log is gone.
 
-**Kicker never sees the skull, and never knows it is casting. It will not tell
+**KickBaton never sees the skull, and never knows it is casting. It will not tell
 you to press your interrupt.**
 
-You watch the nameplate, exactly as you always have. Kicker tracks *whose turn
+You watch the nameplate, exactly as you always have. KickBaton tracks *whose turn
 it is* — the part that used to live in voice comms and got forgotten mid-pull.
 
 If you are looking for an addon that calls interrupts for you, that no longer
@@ -42,7 +42,7 @@ Two rules, enforced by the editor:
 - a player belongs to at most one squad
 - a marker belongs to at most one squad
 
-The first is what makes the whole thing work. Kicker cannot see which mob you
+The first is what makes the whole thing work. KickBaton cannot see which mob you
 kicked, so it identifies your squad from *who you are*. If you sat in two
 squads, an incoming kick could not be attributed to either.
 
@@ -78,7 +78,7 @@ Multiple profiles, switchable at any time, account-wide across your alts.
 
 ## Macros
 
-Kicker generates the focus and marking macros for your chosen marker, ready to
+KickBaton generates the focus and marking macros for your chosen marker, ready to
 copy.
 
 If your old marking macro stopped working, this is why: `SetRaidTarget` became
@@ -99,27 +99,27 @@ exactly the condition that line was hand-rolling.
 
 ## Requirements
 
-**Everyone in the group needs Kicker installed.** Both the assignment sync and
+**Everyone in the group needs KickBaton installed.** Both the assignment sync and
 the kick detection only work between clients that have it.
 
 ---
 
 ## Commands
 
-Short alias: `/kk`
+Short alias: `/kbt`
 
-- `/kicker` — open the squad editor
-- `/kicker status` — report what the addon can and cannot do here
-- `/kicker macro` — focus and marking macros
-- `/kicker push` — send squads to the group
-- `/kicker export` / `import` — share squads as a string
-- `/kicker profile <name>` — switch profile
-- `/kicker next` — advance your squad's turn manually
-- `/kicker scale <0.5-3.0>` — resize the board
-- `/kicker show` / `hide` / `lock` / `unlock` / `reset`
+- `/kickbaton` — open the squad editor
+- `/kickbaton status` — report what the addon can and cannot do here
+- `/kickbaton macro` — focus and marking macros
+- `/kickbaton push` — send squads to the group
+- `/kickbaton export` / `import` — share squads as a string
+- `/kickbaton profile <name>` — switch profile
+- `/kickbaton next` — advance your squad's turn manually
+- `/kickbaton scale <0.5-3.0>` — resize the board
+- `/kickbaton show` / `hide` / `lock` / `unlock` / `reset`
 
-Three keybindings under Options → Keybindings → Kicker. Settings under
-Options → AddOns → Kicker. English and Italian.
+Three keybindings under Options → Keybindings → KickBaton. Settings under
+Options → AddOns → KickBaton. English and Italian.
 
 ---
 
@@ -129,13 +129,13 @@ Each client watches **only its own casts** and tells the group over addon
 messages. Nobody reads anyone else's cooldowns — they declare their own, which
 is both permitted and more accurate.
 
-If a future patch closes that off, Kicker detects the failure at load and
+If a future patch closes that off, KickBaton detects the failure at load and
 disables the layer by itself, falling back to a keybinding. The board, the sync
 and the assignments do not depend on it and keep working.
 
 ---
 
 Source, issues and full documentation:
-**https://github.com/Hydr0gen19/Kicker**
+**https://github.com/Hydr0gen19/KickBaton**
 
 Licensed under GPL-3.0-or-later.

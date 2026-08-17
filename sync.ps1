@@ -22,7 +22,7 @@ param(
 $source = $PSScriptRoot
 
 # Exactly what the game loads, plus the licence the GPL requires us to ship.
-$files   = @("Kicker.toc", "Bindings.xml", "LICENSE")
+$files   = @("KickBaton.toc", "Bindings.xml", "LICENSE")
 $folders = @("Core", "Locales", "UI")
 
 function Find-AddOnsFolder {
@@ -52,7 +52,7 @@ if (-not (Test-Path $addons)) {
     exit 1
 }
 
-$destination = Join-Path $addons "Kicker"
+$destination = Join-Path $addons "KickBaton"
 
 # Start clean so a file that stops being part of the addon actually disappears.
 if (Test-Path $destination) {
@@ -71,7 +71,7 @@ foreach ($folder in $folders) {
 # The TOC carries @project-version@ so the packager can stamp the real version
 # from the git tag. Unsubstituted it would show up verbatim in the addon list,
 # so local copies get a readable placeholder instead.
-$toc = Join-Path $destination "Kicker.toc"
+$toc = Join-Path $destination "KickBaton.toc"
 $stamp = "dev-$(git -C $source rev-parse --short HEAD 2>$null)"
 if ($stamp -eq "dev-") { $stamp = "dev" }
 (Get-Content $toc -Raw).Replace("@project-version@", $stamp) |

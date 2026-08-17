@@ -118,7 +118,7 @@ function SelfReport:OnEnable()
 end
 
 --------------------------------------------------------------------------------
--- /kicker status
+-- /kickbaton status
 --
 -- Exists so that "is it actually working?" has an answer that does not involve
 -- guessing, which matters more than usual given how much of this addon is

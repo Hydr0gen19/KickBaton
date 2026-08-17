@@ -1,14 +1,14 @@
-﻿## Interface: 120007, 120100
-## Title: Kicker
+## Interface: 120007, 120100
+## Title: KickBaton
 ## Notes: Interrupt rotation assignments by raid marker
 ## Notes-itIT: Assegnazioni della rotation di interrupt per raid marker
 ## Version: @project-version@
-## SavedVariables: KickerDB
-## AddonCompartmentFunc: Kicker_OnCompartmentClick
+## SavedVariables: KickBatonDB
+## AddonCompartmentFunc: KickBaton_OnCompartmentClick
 ## IconTexture: Interface\TargetingFrame\UI-RaidTargetingIcon_8
 ## Category: Combat
 ## X-License: GPL-3.0-or-later
-## X-Website: https://github.com/Hydr0gen19/Kicker
+## X-Website: https://github.com/Hydr0gen19/KickBaton
 
 Locales\enUS.lua
 Locales\itIT.lua

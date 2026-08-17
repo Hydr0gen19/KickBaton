@@ -8,11 +8,11 @@ local dialog
 
 local function CreateDialog()
 	local templated = true
-	local ok, frame = pcall(CreateFrame, "Frame", "KickerTransferFrame", UIParent,
+	local ok, frame = pcall(CreateFrame, "Frame", "KickBatonTransferFrame", UIParent,
 		"BasicFrameTemplateWithInset")
 	if not ok or not frame then
 		templated = false
-		frame = CreateFrame("Frame", "KickerTransferFrame", UIParent)
+		frame = CreateFrame("Frame", "KickBatonTransferFrame", UIParent)
 		local background = frame:CreateTexture(nil, "BACKGROUND")
 		background:SetAllPoints()
 		background:SetColorTexture(0, 0, 0, 0.92)
@@ -38,7 +38,7 @@ local function CreateDialog()
 	frame.hint:SetJustifyH("LEFT")
 
 	if templated and frame.TitleText then
-		frame.TitleText:SetText("Kicker")
+		frame.TitleText:SetText("KickBaton")
 	end
 
 	-- A plain bordered EditBox rather than a scrolling one: the payload is a
@@ -92,7 +92,7 @@ local function CreateDialog()
 	frame.closeButton:SetText(L["TRANSFER_CLOSE"])
 	frame.closeButton:SetScript("OnClick", function() frame:Hide() end)
 
-	tinsert(UISpecialFrames, "KickerTransferFrame")
+	tinsert(UISpecialFrames, "KickBatonTransferFrame")
 	return frame
 end
 

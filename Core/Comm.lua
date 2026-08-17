@@ -3,7 +3,7 @@ local _, ns = ...
 local L = ns.L
 local Comm = ns:NewModule("Comm")
 
-local PREFIX = "KICKER"
+local PREFIX = "KICKBATON"
 local MAX_MESSAGE = 255
 
 local SUCCESS = (Enum and Enum.SendAddonMessageResult and Enum.SendAddonMessageResult.Success) or 0

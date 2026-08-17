@@ -60,7 +60,7 @@ ns.Profiles = {
 local function loadModule(relative)
 	local chunk, err = loadfile(ADDON_ROOT .. "/" .. relative)
 	if not chunk then error("could not load " .. relative .. ": " .. tostring(err)) end
-	chunk("Kicker", ns)
+	chunk("KickBaton", ns)
 end
 
 loadModule("Core/Squads.lua")
@@ -116,6 +116,19 @@ local wrapped = exported:sub(1, 20) .. "\n   " .. exported:sub(21)
 check("newlines and spaces ignored", (ns.Transfer:Import(wrapped)) == true)
 
 --------------------------------------------------------------------------------
+print("accepts strings from the old name")
+
+-- Renaming the addon resets saved variables, so a string exported from Kicker
+-- before the switch has to import into KickBaton afterwards. This is the only
+-- migration path anyone has.
+setSquads("Legacy", {})
+local legacy = "Kicker:1:Legacy:1!8=Sara-Nemesis,Ugo-Pozzo"
+local okLegacy, targetLegacy, countLegacy = ns.Transfer:Import(legacy)
+check("legacy Kicker string still imports", okLegacy == true, targetLegacy)
+check("legacy string keeps its squad", countLegacy == 1 and
+	profiles["Legacy"].squads[1].members[2] == "Ugo-Pozzo")
+
+--------------------------------------------------------------------------------
 print("rejects bad input")
 
 local okEmpty, errEmpty = ns.Transfer:Import("")
@@ -124,29 +137,29 @@ check("empty string rejected", okEmpty == false and errEmpty == "TRANSFER_ERR_EM
 local okJunk, errJunk = ns.Transfer:Import("just some text a friend pasted")
 check("garbage rejected", okJunk == false and errJunk == "TRANSFER_ERR_FORMAT", errJunk)
 
-local okVersion, errVersion = ns.Transfer:Import("Kicker:99:X:0!")
+local okVersion, errVersion = ns.Transfer:Import("KickBaton:99:X:0!")
 check("future format rejected", okVersion == false and errVersion == "TRANSFER_ERR_VERSION", errVersion)
 
 -- The case the count header exists for: a clipped string that would otherwise
 -- parse cleanly as a smaller, valid assignment set.
-local truncated = "Kicker:1:Mitica:2!1,8=Luca-Nemesis,Marco-Pozzo"
+local truncated = "KickBaton:1:Mitica:2!1,8=Luca-Nemesis,Marco-Pozzo"
 local okTrunc, errTrunc = ns.Transfer:Import(truncated)
 check("truncation caught", okTrunc == false and errTrunc == "TRANSFER_ERR_TRUNCATED", errTrunc)
 
 --------------------------------------------------------------------------------
 print("enforces the invariants")
 
-local dupeMarker = "Kicker:1:Bad:2!8=Luca-Nemesis!8=Anna-Nemesis"
+local dupeMarker = "KickBaton:1:Bad:2!8=Luca-Nemesis!8=Anna-Nemesis"
 local okMarker, errMarker = ns.Transfer:Import(dupeMarker)
 check("same marker in two squads rejected",
 	okMarker == false and errMarker == "ERR_MARKER_TAKEN", errMarker)
 
-local dupeMember = "Kicker:1:Bad:2!8=Luca-Nemesis!7=Luca-Nemesis"
+local dupeMember = "KickBaton:1:Bad:2!8=Luca-Nemesis!7=Luca-Nemesis"
 local okMember, errMember = ns.Transfer:Import(dupeMember)
 check("same character in two squads rejected",
 	okMember == false and errMember == "ERR_MEMBER_TAKEN", errMember)
 
-local badMarker = "Kicker:1:Bad:1!9=Luca-Nemesis"
+local badMarker = "KickBaton:1:Bad:1!9=Luca-Nemesis"
 local okRange, errRange = ns.Transfer:Import(badMarker)
 check("marker out of range rejected",
 	okRange == false and errRange == "ERR_MARKER_RANGE", errRange)
@@ -155,7 +168,7 @@ check("marker out of range rejected",
 print("nothing is written when import fails")
 
 setSquads("Keep", { { markers = { 3 }, members = { "Sara-Nemesis" } } })
-ns.Transfer:Import("Kicker:1:Keep:5!3=Sara-Nemesis")
+ns.Transfer:Import("KickBaton:1:Keep:5!3=Sara-Nemesis")
 check("existing squads untouched after a rejected import",
 	#profiles["Keep"].squads == 1 and profiles["Keep"].squads[1].markers[1] == 3)
 
