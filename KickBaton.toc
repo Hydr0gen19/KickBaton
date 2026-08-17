@@ -10,6 +10,12 @@
 ## X-License: GPL-3.0-or-later
 ## X-Website: https://github.com/Hydr0gen19/KickBaton
 
+# Publishing targets. The packager skips any site whose ID is missing here or
+# whose token is missing from the repository secrets, so these can be filled in
+# one at a time.
+## X-Curse-Project-ID: 1656674
+## X-Wago-ID: ZKxZyENk
+
 Locales\enUS.lua
 Locales\itIT.lua
 Core\Init.lua
