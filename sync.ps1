@@ -9,12 +9,21 @@
 #
 # Or set WOW_ADDONS once and forget about it:
 #   setx WOW_ADDONS "D:\World of Warcraft\_retail_\Interface\AddOns"
+#
+# This copies an explicit allow-list rather than mirroring with exclusions.
+# Exclusions were leaking: robocopy /XD skips a directory for deletion as well
+# as for copying, so anything excluded after it had already been copied once
+# stayed behind forever.
 
 param(
     [string]$Target
 )
 
 $source = $PSScriptRoot
+
+# Exactly what the game loads, plus the licence the GPL requires us to ship.
+$files   = @("Kicker.toc", "Bindings.xml", "LICENSE")
+$folders = @("Core", "Locales", "UI")
 
 function Find-AddOnsFolder {
     if ($Target) { return $Target }
@@ -44,29 +53,30 @@ if (-not (Test-Path $addons)) {
 }
 
 $destination = Join-Path $addons "Kicker"
-New-Item -ItemType Directory -Force $destination | Out-Null
 
-robocopy $source $destination /MIR `
-    /XD .git .github node_modules tests docs `
-    /XF *.ps1 *.js *.json *.md *.png .gitignore `
-    /NFL /NDL /NJH /NJS /NC /NS | Out-Null
+# Start clean so a file that stops being part of the addon actually disappears.
+if (Test-Path $destination) {
+    Get-ChildItem -LiteralPath $destination -Force | Remove-Item -Recurse -Force
+} else {
+    New-Item -ItemType Directory -Force $destination | Out-Null
+}
 
-# robocopy signals success with codes below 8; only 8 and up are real failures.
-if ($LASTEXITCODE -ge 8) {
-    Write-Error "robocopy failed with code $LASTEXITCODE"
-    exit 1
+foreach ($file in $files) {
+    Copy-Item (Join-Path $source $file) $destination -Force
+}
+foreach ($folder in $folders) {
+    Copy-Item (Join-Path $source $folder) $destination -Recurse -Force
 }
 
 # The TOC carries @project-version@ so the packager can stamp the real version
 # from the git tag. Unsubstituted it would show up verbatim in the addon list,
 # so local copies get a readable placeholder instead.
 $toc = Join-Path $destination "Kicker.toc"
-if (Test-Path $toc) {
-    $stamp = "dev-$(git -C $source rev-parse --short HEAD 2>$null)"
-    if ($stamp -eq "dev-") { $stamp = "dev" }
-    (Get-Content $toc -Raw).Replace("@project-version@", $stamp) |
-        Set-Content $toc -Encoding utf8 -NoNewline
-}
+$stamp = "dev-$(git -C $source rev-parse --short HEAD 2>$null)"
+if ($stamp -eq "dev-") { $stamp = "dev" }
+(Get-Content $toc -Raw).Replace("@project-version@", $stamp) |
+    Set-Content $toc -Encoding utf8 -NoNewline
 
-Write-Host "Synced to $destination - type /reload in game." -ForegroundColor Green
+$count = (Get-ChildItem -LiteralPath $destination -Recurse -File).Count
+Write-Host "Synced $count files to $destination - type /reload in game." -ForegroundColor Green
 exit 0
