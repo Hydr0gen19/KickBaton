@@ -15,6 +15,7 @@
 # one at a time.
 ## X-Curse-Project-ID: 1656674
 ## X-Wago-ID: 56ndPAG9
+## X-WoWI-ID: 27188
 
 Locales\enUS.lua
 Locales\itIT.lua
