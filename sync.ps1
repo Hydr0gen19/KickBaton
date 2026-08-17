@@ -47,7 +47,7 @@ $destination = Join-Path $addons "Kicker"
 New-Item -ItemType Directory -Force $destination | Out-Null
 
 robocopy $source $destination /MIR `
-    /XD .git node_modules tests `
+    /XD .git .github node_modules tests docs `
     /XF *.ps1 *.js *.json *.md *.png .gitignore `
     /NFL /NDL /NJH /NJS /NC /NS | Out-Null
 
