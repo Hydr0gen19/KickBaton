@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      # Parses every Lua file as 5.1 (the version WoW runs) and runs the
+      # transfer/squad tests in a real Lua VM. Catches the class of mistake that
+      # otherwise only shows up in game as "the addon does not load".
+      - run: npm run verify

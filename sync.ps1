@@ -57,5 +57,16 @@ if ($LASTEXITCODE -ge 8) {
     exit 1
 }
 
+# The TOC carries @project-version@ so the packager can stamp the real version
+# from the git tag. Unsubstituted it would show up verbatim in the addon list,
+# so local copies get a readable placeholder instead.
+$toc = Join-Path $destination "Kicker.toc"
+if (Test-Path $toc) {
+    $stamp = "dev-$(git -C $source rev-parse --short HEAD 2>$null)"
+    if ($stamp -eq "dev-") { $stamp = "dev" }
+    (Get-Content $toc -Raw).Replace("@project-version@", $stamp) |
+        Set-Content $toc -Encoding utf8 -NoNewline
+}
+
 Write-Host "Synced to $destination - type /reload in game." -ForegroundColor Green
 exit 0

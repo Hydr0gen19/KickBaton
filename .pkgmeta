@@ -1,0 +1,19 @@
+# Configuration for the BigWigs packager.
+# https://github.com/BigWigsMods/packager
+#
+# YAML: spaces only, tabs will fail to parse.
+
+package-as: Kicker
+
+# Development tooling. The addon itself is pure Lua and needs none of it, so it
+# must not end up in the published archive.
+#
+# Dot-files (.github, .gitignore, .gitattributes, .pkgmeta) are always excluded
+# automatically and do not need listing here.
+ignore:
+  - tests
+  - node_modules
+  - check.js
+  - package.json
+  - package-lock.json
+  - sync.ps1
