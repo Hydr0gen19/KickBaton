@@ -28,6 +28,17 @@ jobs:
       # Never publish something that does not parse.
       - run: npm run verify
 
+      # Lengths only - never the values. Tells us whether a token reached the
+      # runner at all, which the packager's own output does not distinguish
+      # from a token it simply chose not to use.
+      - name: Check token propagation
+        env:
+          CF: ${{ secrets.CF_API_TOKEN }}
+          WAGO: ${{ secrets.WAGO_API_TOKEN }}
+        run: |
+          echo "CF_API_TOKEN length:   ${#CF}"
+          echo "WAGO_API_TOKEN length: ${#WAGO}"
+
       - uses: BigWigsMods/packager@v2
         env:
           # Provided automatically by Actions; no secret to configure.
