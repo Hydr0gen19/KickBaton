@@ -55,11 +55,26 @@ if (-not (Test-Path $addons)) {
 $destination = Join-Path $addons "KickBaton"
 
 # Start clean so a file that stops being part of the addon actually disappears.
-if (Test-Path $destination) {
-    Get-ChildItem -LiteralPath $destination -Force | Remove-Item -Recurse -Force
-} else {
-    New-Item -ItemType Directory -Force $destination | Out-Null
+#
+# Windows can report the delete as done while handles are still closing, which
+# made copies fail with "a device which does not exist was specified" against a
+# directory that had just vanished. So: delete, wait for it to actually go, then
+# recreate before writing anything.
+if (Test-Path -LiteralPath $destination) {
+    Remove-Item -LiteralPath $destination -Recurse -Force -ErrorAction SilentlyContinue
+
+    $waited = 0
+    while ((Test-Path -LiteralPath $destination) -and $waited -lt 50) {
+        Start-Sleep -Milliseconds 100
+        $waited++
+    }
+    if (Test-Path -LiteralPath $destination) {
+        Write-Error "Could not clear $destination - is the game or a file manager holding it open?"
+        exit 1
+    }
 }
+
+New-Item -ItemType Directory -Force $destination | Out-Null
 
 foreach ($file in $files) {
     Copy-Item (Join-Path $source $file) $destination -Force
