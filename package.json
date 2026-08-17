@@ -1,0 +1,17 @@
+﻿{
+  "name": "kicker",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Interrupt rotation assignments by raid marker, for WoW Midnight (12.x). Dev tooling only - the addon itself is pure Lua.",
+  "scripts": {
+    "check": "node check.js .",
+    "test": "node tests/runtests.js . tests/transfer.test.lua",
+    "verify": "npm run check && npm test"
+  },
+  "type": "commonjs",
+  "license": "MIT",
+  "devDependencies": {
+    "luaparse": "^0.3.1",
+    "wasmoon": "^1.16.0"
+  }
+}

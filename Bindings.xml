@@ -1,0 +1,11 @@
+<Bindings>
+	<Binding name="KICKER_ADVANCE" header="KICKER" category="KICKER">
+		Kicker_AdvanceTurn()
+	</Binding>
+	<Binding name="KICKER_CONFIG" category="KICKER">
+		Kicker_ToggleConfig()
+	</Binding>
+	<Binding name="KICKER_TOGGLE" category="KICKER">
+		Kicker_ToggleBoard()
+	</Binding>
+</Bindings>

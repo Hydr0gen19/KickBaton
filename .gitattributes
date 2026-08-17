@@ -1,0 +1,6 @@
+# Normalise to LF in the repository so checkouts on different machines do not
+# produce whole-file diffs. WoW reads either ending without complaint.
+* text=auto eol=lf
+
+*.png binary
+*.zip binary

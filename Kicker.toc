@@ -1,0 +1,26 @@
+﻿## Interface: 120007, 120100
+## Title: Kicker
+## Notes: Interrupt rotation assignments by raid marker
+## Notes-itIT: Assegnazioni della rotation di interrupt per raid marker
+## Version: 0.3.0
+## SavedVariables: KickerDB
+## AddonCompartmentFunc: Kicker_OnCompartmentClick
+## IconTexture: Interface\TargetingFrame\UI-RaidTargetingIcon_8
+## Category: Combat
+
+Locales\enUS.lua
+Locales\itIT.lua
+Core\Init.lua
+Core\Data.lua
+Core\Roster.lua
+Core\Profiles.lua
+Core\Squads.lua
+Core\Transfer.lua
+Core\Macro.lua
+Core\Rotation.lua
+Core\Comm.lua
+Core\SelfReport.lua
+UI\Board.lua
+UI\Config.lua
+UI\Transfer.lua
+UI\Macro.lua

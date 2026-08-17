@@ -1,0 +1,10 @@
+# Dev tooling only; the addon itself is pure Lua and ships without any of this.
+node_modules/
+
+# Release archives are built from the sources, not tracked.
+*.zip
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
