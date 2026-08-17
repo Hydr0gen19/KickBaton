@@ -7,6 +7,8 @@
 ## AddonCompartmentFunc: Kicker_OnCompartmentClick
 ## IconTexture: Interface\TargetingFrame\UI-RaidTargetingIcon_8
 ## Category: Combat
+## X-License: GPL-3.0-or-later
+## X-Website: https://github.com/Hydr0gen19/Kicker
 
 Locales\enUS.lua
 Locales\itIT.lua

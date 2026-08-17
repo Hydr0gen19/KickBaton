@@ -290,4 +290,7 @@ picture is not moving in one direction only.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+GPL-3.0-or-later — see [LICENSE](LICENSE).
+
+You are free to use, modify and redistribute it. If you distribute a modified
+version, it has to stay open under the same licence.
