@@ -24,6 +24,7 @@ Core\Data.lua
 Core\Roster.lua
 Core\Profiles.lua
 Core\Squads.lua
+Core\Restrictions.lua
 Core\Transfer.lua
 Core\Macro.lua
 Core\Rotation.lua

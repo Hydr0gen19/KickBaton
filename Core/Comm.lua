@@ -52,6 +52,41 @@ function Comm:CanPush()
 	return UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")
 end
 
+-- Names for Enum.SendAddonMessageResult, so a failure reads as a cause rather
+-- than a bare number. Built from the live enum when it is available.
+local RESULT_NAMES = {
+	[1] = "InvalidPrefix", [2] = "InvalidMessage", [3] = "AddonMessageThrottle",
+	[4] = "InvalidChatType", [5] = "NotInGroup", [6] = "TargetRequired",
+	[7] = "InvalidChannel", [8] = "ChannelThrottle", [9] = "GeneralError",
+	[10] = "NotInGuild", [11] = "AddOnMessageLockdown", [12] = "TargetOffline",
+}
+
+if Enum and Enum.SendAddonMessageResult then
+	for name, value in pairs(Enum.SendAddonMessageResult) do
+		RESULT_NAMES[value] = name
+	end
+end
+
+local LOCKDOWN = (Enum and Enum.SendAddonMessageResult
+	and Enum.SendAddonMessageResult.AddOnMessageLockdown) or 11
+
+-- One complaint per interval. A blocked key would otherwise print on every
+-- single kick, which is the last thing anyone needs mid-pull.
+local COMPLAIN_INTERVAL = 60
+local lastComplaint = 0
+
+local function ReportFailure(result)
+	local now = GetTime()
+	if now - lastComplaint < COMPLAIN_INTERVAL then return end
+	lastComplaint = now
+
+	if result == LOCKDOWN or ns.Restrictions:ChatBlocked() == true then
+		ns:Print(L["COMM_BLOCKED"])
+	else
+		ns:Print(L["COMM_SEND_FAILED"], RESULT_NAMES[result] or tostring(result))
+	end
+end
+
 function Comm:Send(message)
 	local channel = ChannelForGroup()
 	if not channel then return false end
@@ -62,7 +97,15 @@ function Comm:Send(message)
 	end
 
 	local result = C_ChatInfo.SendAddonMessage(PREFIX, message, channel)
-	return result == nil or result == true or result == SUCCESS
+	if result == nil or result == true or result == SUCCESS then
+		return true
+	end
+
+	-- This return value used to be computed and thrown away, so a blocked send
+	-- looked exactly like a delivered one and the rotation simply stopped moving
+	-- with nothing said. That silence was the actual bug.
+	ReportFailure(result)
+	return false
 end
 
 -- `auto` marks the background pushes: quiet, and deferential to the revision

@@ -43,6 +43,13 @@ local title = board:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 title:SetPoint("TOPLEFT", board, "TOPLEFT", PADDING, -3)
 title:SetText(L["BOARD_TITLE"])
 
+-- Shown only while the game is refusing to carry addon messages. Without it a
+-- frozen turn pointer looks exactly like a working one, which is how this went
+-- unnoticed through a whole key.
+local notice = board:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+notice:SetTextColor(1, 0.5, 0.2)
+notice:Hide()
+
 local flash = board:CreateTexture(nil, "OVERLAY")
 flash:SetAllPoints()
 flash:SetColorTexture(1, 0.82, 0, 0.35)
@@ -173,7 +180,24 @@ function Board:Refresh()
 		rows[index]:Hide()
 	end
 
-	local height = (showTitle and ROW_HEIGHT or PADDING) + #squads * ROW_HEIGHT + PADDING
+	-- nil means the client cannot tell; only a definite true is worth alarming
+	-- anyone about.
+	local blocked = ns.Restrictions:ChatBlocked() == true
+	notice:SetShown(blocked)
+
+	local noticeHeight = 0
+	if blocked then
+		notice:SetText("|cffff8033! " .. L["BOARD_NO_SYNC"] .. "|r")
+		notice:ClearAllPoints()
+		notice:SetPoint("TOPLEFT", board, "TOPLEFT", PADDING,
+			top - #squads * ROW_HEIGHT - 2)
+		noticeHeight = ROW_HEIGHT
+		local width = PADDING * 2 + notice:GetStringWidth()
+		if width > widest then widest = width end
+	end
+
+	local height = (showTitle and ROW_HEIGHT or PADDING)
+		+ #squads * ROW_HEIGHT + noticeHeight + PADDING
 	board:SetSize(math.ceil(widest), math.max(height, ROW_HEIGHT))
 
 	local isMyTurn = ns.Rotation:IsMyTurn()
@@ -285,6 +309,7 @@ function Board:OnEnable()
 	end
 
 	ns:On("SQUADS_CHANGED", refresh)
+	ns:On("RESTRICTIONS_CHANGED", refresh)
 	ns:On("ROTATION_CHANGED", refresh)
 	ns:On("ROSTER_CHANGED", refresh)
 	ns:On("PROFILE_CHANGED", refresh)

@@ -152,6 +152,20 @@ function ns.Status()
 		line(L["STATUS_NO_SQUAD"])
 	end
 
+	-- The single most useful line in a dungeon: whether the game is currently
+	-- letting us talk to the group at all.
+	local blocked = ns.Restrictions:ChatBlocked()
+	if blocked == true then
+		line(L["STATUS_CHAT_BLOCKED"])
+		if ns.Restrictions:InKeystone() == true then
+			line(L["STATUS_KEYSTONE"])
+		end
+	elseif blocked == false then
+		line(L["STATUS_CHAT_OK"])
+	else
+		line(L["STATUS_CHAT_UNKNOWN"])
+	end
+
 	local state = ns.Board:VisibilityState()
 	if state == "shown" then
 		line(L["STATUS_BOARD_SHOWN"])

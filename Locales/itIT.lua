@@ -96,6 +96,9 @@ L["COMM_RECEIVED"]       = "Squadre aggiornate da %s."
 L["COMM_NOT_LEADER"]     = "Solo il leader o un assist possono mandare le squadre."
 L["COMM_NO_GROUP"]       = "Non sei in gruppo."
 L["COMM_TRUNCATED"]      = "Scartato un aggiornamento incompleto da %s."
+L["COMM_BLOCKED"]        = "Il gioco sta bloccando i messaggi addon, quindi i turni non si sincronizzano tra voi. È una restrizione di Midnight durante le key attive, non un difetto dell'addon: il tabellone continua a mostrare squadre e ordine."
+L["COMM_SEND_FAILED"]    = "Invio al gruppo fallito (%s)."
+L["BOARD_NO_SYNC"]       = "non sincronizza"
 
 -- Rotation
 L["ROT_YOUR_TURN"]       = "Tocca a te"
@@ -114,6 +117,10 @@ L["STATUS_BOARD_SHOWN"]  = "Tabellone: sullo schermo (/kickbaton reset se non lo
 L["STATUS_BOARD_EMPTY"]  = "Tabellone: nascosto perché non ci sono squadre configurate"
 L["STATUS_BOARD_MANUAL"] = "Tabellone: nascosto da te (/kickbaton show)"
 L["STATUS_BOARD_SOLO"]   = "Tabellone: nascosto perché non sei in gruppo"
+L["STATUS_CHAT_BLOCKED"] = "Messaggi addon: BLOCCATI dal gioco adesso, i turni non si sincronizzano"
+L["STATUS_CHAT_OK"]      = "Messaggi addon: consentiti"
+L["STATUS_CHAT_UNKNOWN"] = "Messaggi addon: questo client non sa dirlo (API più vecchia)"
+L["STATUS_KEYSTONE"]     = "Sei in una key attiva, cioè quando il gioco applica quella restrizione."
 
 -- Keybinding
 L["BINDING_HEADER"]      = "KickBaton"

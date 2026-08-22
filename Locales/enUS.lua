@@ -95,6 +95,9 @@ L["COMM_RECEIVED"]       = "Squads updated by %s."
 L["COMM_NOT_LEADER"]     = "Only the party leader or an assist can push squads."
 L["COMM_NO_GROUP"]       = "You are not in a group."
 L["COMM_TRUNCATED"]      = "Discarded an incomplete squad update from %s."
+L["COMM_BLOCKED"]        = "The game is blocking addon messages right now, so turns are not syncing between you. This is a Midnight restriction during active keys, not a fault in the addon - the board still shows your squads and their order."
+L["COMM_SEND_FAILED"]    = "Could not send to the group (%s)."
+L["BOARD_NO_SYNC"]       = "not syncing"
 
 -- Rotation
 L["ROT_YOUR_TURN"]       = "Your turn"
@@ -113,6 +116,10 @@ L["STATUS_BOARD_SHOWN"]  = "Board: on screen (/kickbaton reset if you cannot fin
 L["STATUS_BOARD_EMPTY"]  = "Board: hidden because no squads are configured"
 L["STATUS_BOARD_MANUAL"] = "Board: hidden by you (/kickbaton show)"
 L["STATUS_BOARD_SOLO"]   = "Board: hidden because you are not in a group"
+L["STATUS_CHAT_BLOCKED"] = "Addon messages: BLOCKED by the game right now, so turns will not sync"
+L["STATUS_CHAT_OK"]      = "Addon messages: allowed"
+L["STATUS_CHAT_UNKNOWN"] = "Addon messages: this client cannot say (older API)"
+L["STATUS_KEYSTONE"]     = "You are in an active keystone, which is when the game applies that restriction."
 
 -- Keybindings
 L["BINDING_HEADER"]      = "KickBaton"
