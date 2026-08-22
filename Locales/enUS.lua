@@ -120,6 +120,8 @@ L["STATUS_CHAT_BLOCKED"] = "Addon messages: BLOCKED by the game right now, so tu
 L["STATUS_CHAT_OK"]      = "Addon messages: allowed"
 L["STATUS_CHAT_UNKNOWN"] = "Addon messages: this client cannot say (older API)"
 L["STATUS_KEYSTONE"]     = "You are in an active keystone, which is when the game applies that restriction."
+L["STATUS_PARTY_SEEN"]   = "Party kick detection: WORKING - a group member's kick was seen directly, so turns keep moving even without addon messages"
+L["STATUS_PARTY_WAITING"] = "Party kick detection: registered, but no group member has kicked yet - check again after a pull"
 
 -- Keybindings
 L["BINDING_HEADER"]      = "KickBaton"

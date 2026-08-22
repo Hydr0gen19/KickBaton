@@ -78,11 +78,26 @@ end
 -- Called both for our own kick and for every kick reported by a group member.
 -- `playerName` is all we need: the squad lookup supplies the rest, and the
 -- marker never enters the calculation.
+-- The same kick can now arrive twice: once as a unit event seen directly, once
+-- as the addon message that player broadcast. Interrupt cooldowns are at least
+-- twelve seconds, so two reports this close together are always the same kick
+-- and never a second one.
+local DUPLICATE_WINDOW = 2
+local lastKick = {}
+
 function Rotation:RegisterKick(playerName, cooldownSeconds)
 	local squadIndex, memberIndex = ns.Squads:FindSquadOf(playerName)
 	if not squadIndex then return false end
 
 	local key = ns.Roster:Key(playerName)
+
+	if key then
+		local now = GetTime()
+		if lastKick[key] and now - lastKick[key] < DUPLICATE_WINDOW then
+			return false
+		end
+		lastKick[key] = now
+	end
 	if key and cooldownSeconds and cooldownSeconds > 0 then
 		self.cooldowns[key] = GetTime() + cooldownSeconds
 	end
@@ -117,6 +132,7 @@ end
 
 function Rotation:Reset()
 	wipe(self.turn)
+	wipe(lastKick)
 	ns:Fire("ROTATION_CHANGED")
 end
 

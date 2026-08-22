@@ -121,6 +121,8 @@ L["STATUS_CHAT_BLOCKED"] = "Messaggi addon: BLOCCATI dal gioco adesso, i turni n
 L["STATUS_CHAT_OK"]      = "Messaggi addon: consentiti"
 L["STATUS_CHAT_UNKNOWN"] = "Messaggi addon: questo client non sa dirlo (API più vecchia)"
 L["STATUS_KEYSTONE"]     = "Sei in una key attiva, cioè quando il gioco applica quella restrizione."
+L["STATUS_PARTY_SEEN"]   = "Rilevamento kick del gruppo: FUNZIONA - ho visto direttamente il kick di un compagno, quindi i turni avanzano anche senza messaggi addon"
+L["STATUS_PARTY_WAITING"] = "Rilevamento kick del gruppo: registrato, ma nessun compagno ha ancora kickato - ricontrolla dopo una pull"
 
 -- Keybinding
 L["BINDING_HEADER"]      = "KickBaton"

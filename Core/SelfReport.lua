@@ -17,7 +17,11 @@ SelfReport.interrupts = {}
 SelfReport.spellCount = 0
 SelfReport.primarySpellID = nil
 
-local frame = CreateFrame("Frame")
+-- RegisterUnitEvent takes at most two units per frame, so watching player, pet
+-- and the four party slots means a small pool of frames. Worth it: the engine
+-- does the filtering, and we never see an event for a unit we did not ask about.
+local frames = {}
+SelfReport.partyWatch = false
 
 function SelfReport:RefreshSpells()
 	local map, count = ns.Data:GetPlayerInterruptMap()
@@ -85,17 +89,46 @@ local function OnCastSucceeded(_, _, spellID)
 	ns.Rotation:RegisterKick(GetUnitName("player", true), actual)
 end
 
+-- A party member's kick, seen directly.
+--
+-- This is the path that survives inside a key: it is a unit event, not an addon
+-- message, so the Chat restriction does not touch it. The spell ID is documented
+-- as secret for nameplate units - enemies - which is a different thing from a
+-- party unit, but we cannot prove that from outside the game. So it is probed
+-- rather than assumed, and every read is guarded.
+local function OnPartyCast(unit, spellID)
+	if not SelfReport:IsEnabled() then return end
+
+	local ok, cooldown = pcall(function()
+		return ns.Data:GetAllInterruptSpells()[spellID]
+	end)
+	if not ok or not cooldown then return end
+
+	local name = GetUnitName(unit, true)
+	if not name then return end
+
+	SelfReport.partyWatch = true
+	ns.Rotation:RegisterKick(name, cooldown)
+end
+
+local function WatchUnits(...)
+	local frame = CreateFrame("Frame")
+	local ok = pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_SUCCEEDED", ...)
+	if not ok then return nil end
+
+	frames[#frames + 1] = frame
+	return frame
+end
+
 function SelfReport:OnEnable()
 	self:RefreshSpells()
 
 	-- If a future patch closes this event off, registration is where it will
 	-- fail. Catch it here and drop to manual mode instead of erroring at the
 	-- worst possible moment, mid-pull.
-	local ok = pcall(function()
-		frame:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player", "pet")
-	end)
+	local frame = WatchUnits("player", "pet")
 
-	if not ok then
+	if not frame then
 		self.available = false
 		ns:Print(L["STATUS_SELFREPORT_OFF"])
 		return
@@ -105,6 +138,18 @@ function SelfReport:OnEnable()
 	frame:SetScript("OnEvent", function(_, _, unit, castGUID, spellID)
 		OnCastSucceeded(unit, castGUID, spellID)
 	end)
+
+	-- Watching the party directly means the rotation can keep moving even when
+	-- addon messages are blocked. When both paths deliver the same kick, the
+	-- de-duplication in Rotation:RegisterKick throws the second one away.
+	for _, pair in ipairs({ { "party1", "party2" }, { "party3", "party4" } }) do
+		local partyFrame = WatchUnits(pair[1], pair[2])
+		if partyFrame then
+			partyFrame:SetScript("OnEvent", function(_, _, unit, _, spellID)
+				OnPartyCast(unit, spellID)
+			end)
+		end
+	end
 
 	for _, event in ipairs({
 		"PLAYER_SPECIALIZATION_CHANGED",
@@ -150,6 +195,14 @@ function ns.Status()
 		line(L["STATUS_SQUAD"]:format(squadIndex))
 	else
 		line(L["STATUS_NO_SQUAD"])
+	end
+
+	-- The question this addon now lives or dies on: can we see a group member's
+	-- kick without needing the chat channel at all?
+	if SelfReport.partyWatch then
+		line(L["STATUS_PARTY_SEEN"])
+	else
+		line(L["STATUS_PARTY_WAITING"])
 	end
 
 	-- The single most useful line in a dungeon: whether the game is currently

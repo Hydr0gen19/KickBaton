@@ -143,3 +143,23 @@ function Data:GetPlayerInterruptMap()
 
 	return map, count
 end
+
+-- Every interrupt in the game, keyed by spell ID.
+--
+-- Used to recognise a PARTY MEMBER's interrupt from a unit event. We do not
+-- know or care which class they are: if the spell they just landed is in this
+-- set, it was a kick. That keeps the check to one table lookup and stays
+-- correct even if our class/spec mapping is wrong somewhere.
+function Data:GetAllInterruptSpells()
+	if self.allInterrupts then return self.allInterrupts end
+
+	local all = {}
+	for _, candidates in pairs(ns.INTERRUPTS) do
+		for i = 1, #candidates do
+			all[candidates[i].spellID] = candidates[i].cd
+		end
+	end
+
+	self.allInterrupts = all
+	return all
+end
