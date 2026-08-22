@@ -181,8 +181,10 @@ function Board:Refresh()
 	end
 
 	-- nil means the client cannot tell; only a definite true is worth alarming
-	-- anyone about.
+	-- anyone about - and not even then if party kicks are coming through
+	-- directly, because the turn is syncing after all.
 	local blocked = ns.Restrictions:ChatBlocked() == true
+		and not ns.SelfReport.partyWatch
 	notice:SetShown(blocked)
 
 	local noticeHeight = 0

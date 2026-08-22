@@ -76,6 +76,11 @@ local COMPLAIN_INTERVAL = 60
 local lastComplaint = 0
 
 local function ReportFailure(result)
+	-- If party kicks are being seen directly, the rotation is moving and the
+	-- blocked channel is redundant. Complaining about it would be noise about a
+	-- problem the player does not have.
+	if ns.SelfReport and ns.SelfReport.partyWatch then return end
+
 	local now = GetTime()
 	if now - lastComplaint < COMPLAIN_INTERVAL then return end
 	lastComplaint = now
